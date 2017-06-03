@@ -70,6 +70,21 @@ public class MainController {
             builder.append("Username: " + user.getUsername() + "<br>");
         }
 
+        builder.append("<br><br><br><br>");
+
+        builder.append("<br> Ilość stron: " + currentPage.getTotalPages());
+        builder.append("<br> Czy zawiera następną stronę?: " + currentPage.hasNext());
+        builder.append("<br> Czy zawiera poprzednią stronę?: " + currentPage.hasPrevious());
+
+        currentPage.nextPageable();
+
+        builder.append("<br><br><br><br>");
+
+        for (User user : currentPage.getContent()) {
+            builder.append("Username: " + user.getUsername() + "<br>");
+        }
+
+        currentPage.map()
 
         return builder.toString();
 
