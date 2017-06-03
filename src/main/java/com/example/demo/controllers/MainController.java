@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.MailSerivce;
 import com.example.demo.TicketRepository;
 import com.example.demo.UserRepository;
 import com.example.demo.models.Ticket;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
 
 import java.util.List;
 
@@ -27,6 +31,12 @@ public class MainController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    MailSerivce mailSerivce;
+
+    @Autowired
+    TemplateEngine templateEngine;
 
     @RequestMapping(value = "/{prefix}", method = RequestMethod.GET)
     @ResponseBody
@@ -63,7 +73,7 @@ public class MainController {
 //        users.stream().map(s -> s.getUsername()).collect(
 //                Collectors.joining(" , ", "Role: ", ""))
 
-        Page<User> currentPage = userRepository.findAll(new PageRequest(0, 4));
+        Page<User> currentPage = userRepository.findAll(new PageRequest(0, 10));
         StringBuilder builder = new StringBuilder();
 
         for (User user : currentPage.getContent()) {
@@ -76,7 +86,7 @@ public class MainController {
         builder.append("<br> Czy zawiera następną stronę?: " + currentPage.hasNext());
         builder.append("<br> Czy zawiera poprzednią stronę?: " + currentPage.hasPrevious());
 
-        currentPage.nextPageable();
+        currentPage = userRepository.findAll(currentPage.nextPageable());
 
         builder.append("<br><br><br><br>");
 
@@ -84,9 +94,26 @@ public class MainController {
             builder.append("Username: " + user.getUsername() + "<br>");
         }
 
-        currentPage.map()
+        builder.append("<br><br><br><br>");
+
+        builder.append("<br> Ilość stron: " + currentPage.getTotalPages());
+        builder.append("<br> Czy zawiera następną stronę?: " + currentPage.hasNext());
+        builder.append("<br> Czy zawiera poprzednią stronę?: " + currentPage.hasPrevious());
 
         return builder.toString();
 
+    }
+
+    @RequestMapping(value = "/mail/{cash}", method = RequestMethod.GET)
+    @ResponseBody
+    public String email(@PathVariable("cash") int cash) {
+        Context context = new Context();
+        context.setVariable("welcome", "Witaj Janie Kowalski!");
+        context.setVariable("message", "Wisisz nam już " + cash + " zł");
+
+        String bodyHtml = templateEngine.process("emailone", context);
+
+        mailSerivce.sendEmail("lukaszbilski1@gmail.com", bodyHtml, "Wysłane z wykładu");
+        return "Wysłano maila!";
     }
 }

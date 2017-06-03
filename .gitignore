@@ -9,6 +9,7 @@
 .project
 .settings
 .springBeans
+*.properties
 
 ### IntelliJ IDEA ###
 .idea
@@ -23,3 +24,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+src/main/resources/static/
+src/main/resources/templates/
+src/main/resources/
