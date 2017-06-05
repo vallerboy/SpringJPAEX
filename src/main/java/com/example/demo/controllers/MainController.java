@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 
 import java.util.List;
 
@@ -113,7 +113,13 @@ public class MainController {
 
         String bodyHtml = templateEngine.process("emailone", context);
 
-        mailSerivce.sendEmail("lukaszbilski1@gmail.com", bodyHtml, "Wysłane z wykładu");
+        mailSerivce.sendEmail("***", bodyHtml, "Wysłane z wykładu");
         return "Wysłano maila!";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String portfolio(Model model){
+
+        return "index";
     }
 }
