@@ -15,6 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    LoginHandler loginHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
        http.
@@ -24,6 +28,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                .and()
                .formLogin()
+                .successHandler(loginHandler)
                 .loginPage("/login")
                 .permitAll()
                .and()
