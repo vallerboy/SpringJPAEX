@@ -121,8 +121,8 @@ public class ApiController {
     @ResponseBody
     public String test(HttpServletRequest servletRequest) throws Exception{
         String path = (String) servletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-        String[] split = path.split("/");
-        return "Pozostały path to: " + path;
+        //String[] split = path.split("/");
+        return "Path to: " + path;
     }
 
     // Pobieranie pojedynczych pól z formularza
