@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HandlerMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
@@ -114,6 +116,19 @@ public class ApiController {
     }
 
 
+    // Dynamiczne adresy URL
+    @RequestMapping(value = "/oskar/**", method = RequestMethod.GET)
+    @ResponseBody
+    public String test(HttpServletRequest servletRequest) throws Exception{
+        String path = (String) servletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        String[] split = path.split("/");
+        return "Pozostały path to: " + path;
+    }
 
-
+    // Pobieranie pojedynczych pól z formularza
+    @RequestMapping(value = "/oskar/**", method = RequestMethod.POST)
+    @ResponseBody
+    public String test( @RequestParam(value = "login" /*required = false */) String login, @RequestParam("password") String password){
+        return "Login: " + login;
+    }
 }
