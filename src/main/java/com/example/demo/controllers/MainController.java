@@ -38,21 +38,21 @@ public class MainController {
     @Autowired
     TemplateEngine templateEngine;
 
-    @RequestMapping(value = "/{prefix}", method = RequestMethod.GET)
-    @ResponseBody
-    public String home(@PathVariable("prefix") String prefix) {
-        List<Ticket> tickets = ticketRepository.findByMessageLike(prefix + "%");
-
-        String messages = "Tickety rozpoczynajce sie na 'Nic': ";
-        for (Ticket ticket : tickets) {
-            messages += ticket.getMessage() + " , ";
-        }
-
-        //tickets.stream().map(s -> s.getMessage()).collect(
-        //        Collectors.joining(" , " , "Tickety: ", ""));
-
-        return messages;
-    }
+//    @RequestMapping(value = "/{prefix}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String home(@PathVariable("prefix") String prefix) {
+//        List<Ticket> tickets = ticketRepository.findByMessageLike(prefix + "%");
+//
+//        String messages = "Tickety rozpoczynajce sie na 'Nic': ";
+//        for (Ticket ticket : tickets) {
+//            messages += ticket.getMessage() + " , ";
+//        }
+//
+//        //tickets.stream().map(s -> s.getMessage()).collect(
+//        //        Collectors.joining(" , " , "Tickety: ", ""));
+//
+//        return messages;
+//    }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseBody
@@ -117,9 +117,5 @@ public class MainController {
         return "Wysłano maila!";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String portfolio(Model model){
 
-        return "index";
-    }
 }

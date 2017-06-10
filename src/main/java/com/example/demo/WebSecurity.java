@@ -20,6 +20,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
        http.
                authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
                .and()
                .formLogin()
@@ -28,6 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                .and()
                 .logout()
                 .permitAll();
+       http.exceptionHandling().accessDeniedPage("/403");
 
     }
 
@@ -36,7 +38,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                     .withUser("oskar").password("mojehaslo").roles("ADMIN")
-                    .and()
-                    .withUser("test").password("test").roles("USER");
+                .and()
+                    .withUser("user").password("simpleuser").roles("USER");
+
     }
 }
