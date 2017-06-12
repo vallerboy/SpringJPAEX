@@ -13,6 +13,15 @@ import org.springframework.web.context.WebApplicationContext;
 public class UserInfo {
 
     private boolean isLogged;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public boolean isLogged() {
         return isLogged;
