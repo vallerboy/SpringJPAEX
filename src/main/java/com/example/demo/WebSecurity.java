@@ -23,17 +23,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http.
                authorizeRequests()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .anyRequest().authenticated()
-               .and()
-               .formLogin()
-                .successHandler(loginHandler)
-                .loginPage("/login")
-                .permitAll()
-               .and()
-                .logout()
-                .permitAll();
+                .anyRequest().authenticated();
        http.exceptionHandling().accessDeniedPage("/403");
 
     }
